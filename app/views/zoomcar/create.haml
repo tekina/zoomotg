@@ -1,0 +1,11 @@
+%h3
+  Booking created successfully  with ID: #{@data["booking_id"]}
+  %br/
+  Please pay Rs. #{@data["total"]} to confirm booking
+
+%form{:id => 'confirmForm', action: "/zoomcar/confirm", method: "post"}
+  .hidden_field_tag
+    = token_tag
+    = hidden_field_tag :booking_id, "#{@data["booking_id"]}"
+    = hidden_field_tag :amount, "#{@data["total"]}"
+    %input#confirm_booking{style: "height:25px;width:200px;", type: "submit", value: "I swear I've paid!", class: 'make_booking'}

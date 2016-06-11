@@ -1,15 +1,13 @@
 class ZoomcarController < ApplicationController
 
-  before_filter :get_auth_token, only: [:create]
-
-  @token = "this_is_the_token"
+  before_filter :get_auth_token, only: [:create, :confirm]
 
   def index
 
   end
 
   def search
-    binding.pry
+    @token = "this_is_the_token"
     search = ZoomcarOtg::Search.new(@token)
     results = search.airport({ :city => params[:city], :starts => params[:pickup], :ends => params[:dropoff] })
     binding.pry
@@ -26,21 +24,28 @@ class ZoomcarController < ApplicationController
   end
 
   def create
-    binding.pry
+    @token = "this_is_the_token"
     booking = ZoomcarOtg::Booking.new(@token)
     bkg_data = booking.create({auth_token: @auth_token, city: params[:city], starts: params[:starts], ends: 
       params[:ends], location_id: params[:location_id], cargroup_id: params[:cargroup_id], pricing_id: params[:pricing_id]
       })
-    binding.pry
-    return bkg_data
+    @data = JSON.parse(bkg_data)
+  end
+
+  def confirm
+    booking = ZoomcarOtg::Booking.new(@token)
+    bkg_data = booking.confirm_payment({:auth_token => @auth_token, :booking_id => params[:booking_id], :amount => params[:amount]})
+    @data = JSON.parse(bkg_data).merge!({"booking_id": params[:booking_id]})
   end
 
   protected
 
   def get_auth_token
+    @token = "this_is_the_token"
     user = ZoomcarOtg::User.new(@token)
-    @auth_token = user.auth_token({:email => 'aniket.garg@zoomcar.com', :name => "Aniket Garg"})
-    return auth_token
+    token = user.auth_token({:email => 'aniket.garg@zoomcar.com', :name => "Aniket Garg"}) 
+    @auth_token = JSON.parse(token)["auth_token"]
+    return @auth_token
   end
 
 end
