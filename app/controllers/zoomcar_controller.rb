@@ -10,7 +10,6 @@ class ZoomcarController < ApplicationController
     @token = "this_is_the_token"
     search = ZoomcarOtg::Search.new(@token)
     results = search.airport({ :city => params[:city], :starts => params[:pickup], :ends => params[:dropoff] })
-    binding.pry
     res = JSON.parse(results)
     data = {}
     res["result"][0]["cars"].each do |r|
