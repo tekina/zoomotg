@@ -1,0 +1,10 @@
+%h3
+  Start Time:
+  = @data[1][:starts] 
+  | End Time:
+  = @data[1][:ends] 
+  | City:
+  = @data[1][:city].capitalize
+%hr
+- @data.each do |d|
+  = render :partial => 'search_item', locals: { data: d }

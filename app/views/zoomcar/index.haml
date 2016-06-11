@@ -1,93 +1,93 @@
 %h3
-	Make a booking with Zoomcar(Airport only):
+  Make a booking with Zoomcar(Airport only):
 %br/
 
 %h4
-	Select City:
+  Select City:
 %select#city
-	%option{value: "bangalore"} Bangalore
-	%option{value: "Pune"} Pune
-	%option{value: "delhi"} Delhi
-	%option{value: "mumbai"} Mumbai
-	%option{value: "chennai"} Chennai
-	%option{value: "hyderabad"} Hyderabad
-	%option{value: "chandigarh"} Chandigarh
+  %option{value: "bangalore"} Bangalore
+  %option{value: "Pune"} Pune
+  %option{value: "delhi"} Delhi
+  %option{value: "mumbai"} Mumbai
+  %option{value: "chennai"} Chennai
+  %option{value: "hyderabad"} Hyderabad
+  %option{value: "chandigarh"} Chandigarh
 
 #container{:style => "width:100%"}
-	#left{:style => "float:left; width: 50%;"}
-		%h4
-			Select Pickup Details:
-		%input#pickupDatePicker/
-		%select#pickupHour
-			%option{disabled: "", selected: "", value: ""} Hours
-			- [*0..23].each do |h|
-				- val = h < 10 ? "0" + h.to_s : h
-				%option{value: val}
-					= val
-		%select#pickupMinute
-			%option{disabled: "", selected: "", value: ""} Minutes
-			%option{value: "00"} 00
-			%option{value: "30"} 30
-	#right{:style => "float:left; width: 50%;"}
-		%h4
-			Select Dropoff Details:
-		%input#dropoffDatePicker/
-		%select#dropoffHour
-			%option{disabled: "", selected: "", value: ""} Hours
-			- [*0..23].each do |h|
-				- val = h < 10 ? "0" + h.to_s : h
-				%option{value: val}
-					= val
-		%select#dropoffMinute
-			%option{disabled: "", selected: "", value: ""} Minutes
-			%option{value: "00"} 00
-			%option{value: "30"} 30
-		%br/
-		%br/
-		%br/
+  #left{:style => "float:left; width: 50%;"}
+    %h4
+      Select Pickup Details:
+    %input#pickupDatePicker/
+    %select#pickupHour
+      %option{disabled: "", selected: "", value: ""} Hours
+      - [*0..23].each do |h|
+        - val = h < 10 ? "0" + h.to_s : h
+        %option{value: val}
+          = val
+    %select#pickupMinute
+      %option{disabled: "", selected: "", value: ""} Minutes
+      %option{value: "00"} 00
+      %option{value: "30"} 30
+  #right{:style => "float:left; width: 50%;"}
+    %h4
+      Select Dropoff Details:
+    %input#dropoffDatePicker/
+    %select#dropoffHour
+      %option{disabled: "", selected: "", value: ""} Hours
+      - [*0..23].each do |h|
+        - val = h < 10 ? "0" + h.to_s : h
+        %option{value: val}
+          = val
+    %select#dropoffMinute
+      %option{disabled: "", selected: "", value: ""} Minutes
+      %option{value: "00"} 00
+      %option{value: "30"} 30
+    %br/
+    %br/
+    %br/
 
 .wrapper{style: "text-align: center"}
-	%button.button#submit{style: "height: 40px; width: 200px", onclick: "doSearch();"} 
-		%h4
-			Get me a Zoomcar!!!
+  %button.button#submit{style: "height: 40px; width: 200px", onclick: "doSearch();"} 
+    %h4
+      Get me a Zoomcar!!!
 
 %link{:href => "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css", :rel => "stylesheet"}
 %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"}
 %script{:src => "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"}
 
 :javascript
-	$(document).ready(function() {
-		$("#pickupDatePicker").datepicker();
-		$("#dropoffDatePicker").datepicker();
-	});
+  $(document).ready(function() {
+    $("#pickupDatePicker").datepicker();
+    $("#dropoffDatePicker").datepicker();
+  });
 
-	function doSearch() {
-		//city
-		var e = document.getElementById("city");
-		var city = e.options[e.selectedIndex].value;
-		
-		//pickup time
-		var e = document.getElementById("pickupHour");
-		var pickupHour = e.options[e.selectedIndex].value;
-		var e = document.getElementById("pickupMinute");
-		var pickupMinute = e.options[e.selectedIndex].value;
-		
-		// dropoff time
-		var e = document.getElementById("dropoffHour");
-		var dropoffHour = e.options[e.selectedIndex].value;
-		var e = document.getElementById("dropoffMinute");
-		var dropoffMinute = e.options[e.selectedIndex].value;
-		
-		// pickup date
-		var pickupDateObj = $("#pickupDatePicker").datepicker( 'getDate' );
-		var dropoffDateObj = $("#dropoffDatePicker").datepicker( 'getDate' );
-		var pickupMonth = pickupDateObj.getMonth()+1;
-		if (pickupMonth < 10)
-			pickupMonth = "0" + pickupMonth;
-		var dropoffMonth = dropoffDateObj.getMonth()+1;
-			if (dropoffMonth < 10)
-				dropoffMonth = "0" + dropoffMonth;
-		var pickup = pickupDateObj.getFullYear() + "-" + (pickupMonth) + "-" +  pickupDateObj.getDate() + " " + pickupHour + ":" + pickupMinute;
-		var dropoff = dropoffDateObj.getFullYear() + "-" + dropoffMonth + "-" +  dropoffDateObj.getDate() + " " + dropoffHour + ":" + dropoffMinute;
-		window.location = "/zoomcar/search?city=" + city + "&pickup=" + pickup + "&dropoff=" + dropoff;
-	}
+  function doSearch() {
+    //city
+    var e = document.getElementById("city");
+    var city = e.options[e.selectedIndex].value;
+    
+    //pickup time
+    var e = document.getElementById("pickupHour");
+    var pickupHour = e.options[e.selectedIndex].value;
+    var e = document.getElementById("pickupMinute");
+    var pickupMinute = e.options[e.selectedIndex].value;
+    
+    // dropoff time
+    var e = document.getElementById("dropoffHour");
+    var dropoffHour = e.options[e.selectedIndex].value;
+    var e = document.getElementById("dropoffMinute");
+    var dropoffMinute = e.options[e.selectedIndex].value;
+    
+    // pickup date
+    var pickupDateObj = $("#pickupDatePicker").datepicker( 'getDate' );
+    var dropoffDateObj = $("#dropoffDatePicker").datepicker( 'getDate' );
+    var pickupMonth = pickupDateObj.getMonth()+1;
+    if (pickupMonth < 10)
+      pickupMonth = "0" + pickupMonth;
+    var dropoffMonth = dropoffDateObj.getMonth()+1;
+      if (dropoffMonth < 10)
+        dropoffMonth = "0" + dropoffMonth;
+    var pickup = pickupDateObj.getFullYear() + "-" + (pickupMonth) + "-" +  pickupDateObj.getDate() + " " + pickupHour + ":" + pickupMinute;
+    var dropoff = dropoffDateObj.getFullYear() + "-" + dropoffMonth + "-" +  dropoffDateObj.getDate() + " " + dropoffHour + ":" + dropoffMinute;
+    window.location = "/zoomcar/search?city=" + city + "&pickup=" + pickup + "&dropoff=" + dropoff;
+  }

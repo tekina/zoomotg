@@ -1,0 +1,35 @@
+.boxed{style: "border:2px;"}
+  #container{style:"width:80%"}
+    #left{style:"float:left; width: 40%;"}
+      - cargroup = data[0]
+      - data = data[1]
+      Car:
+      %b
+        = data[:carname]
+      Price:
+      %b
+        = data[:amount]
+      Free Kms:
+      %b
+        = data[:kms]
+    #right{:style => "float:left; width: 40%;"}
+      %form{:id => 'searchForm' + "#{cargroup}", action: "/zoomcar/create", method: "post"}
+        .hidden_field_tag
+          = token_tag
+          = hidden_field_tag :location_id, "#{data[:location_id]}"
+          = hidden_field_tag :city, "#{data[:city]}"
+          = hidden_field_tag :cargroup_id, "#{cargroup}"
+          = hidden_field_tag :starts, "#{data[:starts]}"
+          = hidden_field_tag :ends, "#{data[:ends]}"
+          = hidden_field_tag :pricing_id, "#{data[:pricing_id]}"
+          %input#make_booking{style: "height:25px;width:200px;", type: "submit", value: "I want a #{data[:carname]}", class: 'make_booking'}
+      -# .wrapper{style: "text-align: center"}
+      -#   %button.button#submit{style: "height: 40px; width: 200px", onclick: "doSearch();"} 
+      -#     %h4
+      -#       I want a #{data[:carname]}
+%br/
+%br/
+%hr
+%br/
+
+:javascript
